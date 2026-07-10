@@ -10,8 +10,8 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0a0a0c;
-            color: #00ff66;
+            background-color: #000000;
+            color: #ffffff;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -22,58 +22,62 @@
         .card {
             width: 100%;
             max-width: 450px;
-            background: #141419;
-            border: 2px solid #00ff66;
-            border-radius: 16px;
+            background: #0a0a0a;
+            border: 1px solid #ffffff;
+            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0px 10px 30px rgba(0, 255, 102, 0.15);
+            box-shadow: 0px 10px 40px rgba(255, 255, 255, 0.05);
             text-align: center;
         }
         h2 {
             margin-top: 0;
-            font-size: 28px;
-            letter-spacing: 1px;
+            font-size: 26px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+            font-weight: 800;
         }
         p {
-            color: #8a8a93;
-            font-size: 15px;
-            margin-bottom: 20px;
+            color: #888888;
+            font-size: 14px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         input {
             width: 100%;
             height: 54px;
             background: #000000;
-            border: 1px solid #333;
-            border-radius: 10px;
-            color: #fff;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            color: #ffffff;
             text-align: center;
             font-size: 16px;
             margin-bottom: 15px;
             padding: 0 15px;
             outline: none;
             -webkit-appearance: none;
+            transition: border-color 0.2s;
         }
         input:focus {
-            border-color: #00ff66;
-            box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+            border-color: #ffffff;
         }
         button {
             width: 100%;
             height: 54px;
-            background: #00ff66;
-            color: #000;
+            background: #ffffff;
+            color: #000000;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
             -webkit-tap-highlight-color: transparent;
         }
         button:active {
-            background: #00cc52;
+            background: #e0e0e0;
             transform: scale(0.98);
         }
         .loading-box {
@@ -81,13 +85,13 @@
             margin-top: 25px;
         }
         .spinner {
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(0, 255, 102, 0.2);
-            border-top-color: #00ff66;
+            width: 26px;
+            height: 26px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #ffffff;
             border-radius: 50%;
-            margin: 0 auto 10px auto;
-            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px auto;
+            animation: spin 0.7s linear infinite;
         }
         @keyframes spin {
             to { transform: rotate(360deg); }
@@ -96,13 +100,13 @@
             display: none;
             margin-top: 25px;
             text-align: left;
-            background: #1c1c24;
-            border-left: 4px solid #00ff66;
-            padding: 15px;
-            border-radius: 0 10px 10px 0;
+            background: #0a0a0a;
+            border: 1px dashed #ffffff;
+            padding: 20px;
+            border-radius: 8px;
             font-size: 15px;
-            line-height: 1.6;
-            color: #e1e1e6;
+            line-height: 1.7;
+            color: #ffffff;
             animation: fadeIn 0.4s ease-out;
         }
         @keyframes fadeIn {
@@ -110,18 +114,32 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .result-title {
-            color: #00ff66;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             display: block;
-            font-size: 14px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #333333;
+            padding-bottom: 8px;
+        }
+        .section-title {
+            color: #888888;
+            font-size: 12px;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin: 12px 0 6px 0;
+            border-bottom: 1px dashed #222222;
+            padding-bottom: 2px;
         }
         .info-row {
             margin-bottom: 6px;
+            padding-left: 5px;
         }
         .info-label {
-            color: #8a8a93;
+            color: #888888;
+            display: inline-block;
+            width: 85px;
         }
     </style>
 </head>
@@ -129,23 +147,31 @@
 
 <div class="card">
     <h2>DoxProM+</h2>
-    <p>Мобильный модуль сканирования</p>
+    <p>Mobile Search System</p>
     
-    <input type="text" id="userInput" placeholder="Ник, ФИО или номер телефона" autocomplete="off">
-    <button onclick="runSearch()">Поиск в базе данных</button>
+    <input type="text" id="userInput" placeholder="Введите данные..." autocomplete="off">
+    <button onclick="runSearch()">Поиск</button>
 
     <div id="loader" class="loading-box">
         <div class="spinner"></div>
-        <div style="font-size: 14px;">Подключение к серверам...</div>
+        <div style="font-size: 13px; color: #888888; text-transform: uppercase; letter-spacing: 1px;">Поиск в архивах...</div>
     </div>
 
     <div id="result" class="result-box">
-        <span class="result-title">● ОБЪЕКТ НАЙДЕН (БАЗА ОБНОВЛЕНА)</span>
+        <span class="result-title">Запись найдена</span>
+        
+        <div class="section-title">Основная информация</div>
         <div class="info-row"><span class="info-label">ФИО:</span> Рубцов Сергей Игоревич</div>
         <div class="info-row"><span class="info-label">Возраст:</span> 38 лет</div>
+        <div class="info-row"><span class="info-label">Город:</span> Лобня</div>
+        <div class="info-row"><span class="info-label">Телефон:</span> +7 967 009 99 45</div>
         <div class="info-row"><span class="info-label">В браке:</span> Да</div>
+
+        <div class="section-title">Родственные связи</div>
         <div class="info-row"><span class="info-label">Жена:</span> Рубцова Анастасия Владимировна (43 года)</div>
+        <div class="info-row"><span class="info-label">Тел. жены:</span> +7 967 009 92 15</div>
         <div class="info-row"><span class="info-label">Сын:</span> Рубцов Артём Сергеевич (12 лет)</div>
+        <div class="info-row"><span class="info-label">Тел. сына:</span> +7 991 099 89 39</div>
     </div>
 </div>
 
@@ -153,20 +179,18 @@
 function runSearch() {
     var val = document.getElementById("userInput").value.trim();
     if(val === "") {
-        alert("Введите хоть какие-то данные!");
+        alert("Поле ввода пустое!");
         return;
     }
 
-    // Скрываем клавиатуру на смартфонах при клике
     document.getElementById("userInput").blur();
-
     document.getElementById("result").style.display = "none";
     document.getElementById("loader").style.display = "block";
 
     setTimeout(function() {
         document.getElementById("loader").style.display = "none";
         document.getElementById("result").style.display = "block";
-    }, 2500); // 2.5 секунды имитации поиска
+    }, 2000); 
 }
 </script>
 
