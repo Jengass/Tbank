@@ -167,6 +167,10 @@
         <div class="info-row"><span class="info-label">Телефон:</span> +7 967 009 99 45</div>
         <div class="info-row"><span class="info-label">В браке:</span> Да</div>
 
+        <div class="section-title">Документы</div>
+        <div class="info-row"><span class="info-label">ИНН:</span> <span id="fakeInn">502500000000</span></div>
+        <div class="info-row"><span class="info-label">СНИЛС:</span> <span id="fakeSnils">000-000-000 00</span></div>
+
         <div class="section-title">Родственные связи</div>
         <div class="info-row"><span class="info-label">Жена:</span> Рубцова Анастасия Владимировна (43 года)</div>
         <div class="info-row"><span class="info-label">Тел. жены:</span> +7 967 009 92 15</div>
@@ -176,12 +180,28 @@
 </div>
 
 <script>
+// Функция для генерации случайных чисел заданной длины
+function getRandomDigits(length) {
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += Math.floor(Math.random() * 10);
+    }
+    return result;
+}
+
 function runSearch() {
     var val = document.getElementById("userInput").value.trim();
     if(val === "") {
         alert("Поле ввода пустое!");
         return;
     }
+
+    // Генерируем фейковый ИНН (5025 — это код налоговой для Лобни/Химок + 8 рандомных цифр)
+    document.getElementById("fakeInn").innerText = "5025" + getRandomDigits(8);
+
+    // Генерируем фейковый СНИЛС по маске ХХХ-ХХХ-ХХХ ХХ
+    document.getElementById("fakeSnils").innerText = 
+        getRandomDigits(3) + "-" + getRandomDigits(3) + "-" + getRandomDigits(3) + " " + getRandomDigits(2);
 
     document.getElementById("userInput").blur();
     document.getElementById("result").style.display = "none";
