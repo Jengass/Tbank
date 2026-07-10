@@ -139,7 +139,7 @@
         .info-label {
             color: #888888;
             display: inline-block;
-            width: 85px;
+            width: 95px;
         }
     </style>
 </head>
@@ -176,11 +176,19 @@
         <div class="info-row"><span class="info-label">Тел. жены:</span> +7 967 009 92 15</div>
         <div class="info-row"><span class="info-label">Сын:</span> Рубцов Артём Сергеевич (12 лет)</div>
         <div class="info-row"><span class="info-label">Тел. сына:</span> +7 991 099 89 39</div>
+
+        <div class="section-title">Учетные записи и доступы</div>
+        <div class="info-row"><span class="info-label">Госуслуги (Сын):</span></div>
+        <div class="info-row" style="padding-left: 15px;"><span class="info-label" style="width:70px;">Логин:</span> artem.rubcov.12@mail.ru</div>
+        <div class="info-row" style="padding-left: 15px;"><span class="info-label" style="width:70px;">Пароль:</span> Tema10052014!</div>
+        
+        <div class="info-row" style="margin-top: 5px;"><span class="info-label">Шк. Дневник:</span></div>
+        <div class="info-row" style="padding-left: 15px;"><span class="info-label" style="width:70px;">Логин:</span> <span id="fakeDiaryLogin">rubcov_art_lobnya</span></div>
+        <div class="info-row" style="padding-left: 15px;"><span class="info-label" style="width:70px;">Пароль:</span> <span id="fakeDiaryPass">pass1234</span></div>
     </div>
 </div>
 
 <script>
-// Функция для генерации случайных чисел заданной длины
 function getRandomDigits(length) {
     let result = '';
     for (let i = 0; i < length; i++) {
@@ -196,12 +204,14 @@ function runSearch() {
         return;
     }
 
-    // Генерируем фейковый ИНН (5025 — это код налоговой для Лобни/Химок + 8 рандомных цифр)
+    // Генерация ИНН и СНИЛС
     document.getElementById("fakeInn").innerText = "5025" + getRandomDigits(8);
-
-    // Генерируем фейковый СНИЛС по маске ХХХ-ХХХ-ХХХ ХХ
     document.getElementById("fakeSnils").innerText = 
         getRandomDigits(3) + "-" + getRandomDigits(3) + "-" + getRandomDigits(3) + " " + getRandomDigits(2);
+
+    // Случайный хвостик для логина и пароля от школьного дневника для реализма
+    document.getElementById("fakeDiaryLogin").innerText = "rubcov_art_" + getRandomDigits(3);
+    document.getElementById("fakeDiaryPass").innerText = "rt" + getRandomDigits(6) + "!";
 
     document.getElementById("userInput").blur();
     document.getElementById("result").style.display = "none";
