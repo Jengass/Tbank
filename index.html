@@ -3,438 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Т-Банк</title>
+    <title>DoxProM+ Mobile</title>
     <style>
         * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0a0a0c;
+            color: #00ff66;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .card {
+            width: 100%;
+            max-width: 450px;
+            background: #141419;
+            border: 2px solid #00ff66;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0px 10px 30px rgba(0, 255, 102, 0.15);
+            text-align: center;
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+        }
+        p {
+            color: #8a8a93;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            height: 54px;
+            background: #000000;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding: 0 15px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input:focus {
+            border-color: #00ff66;
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+        button {
+            width: 100%;
+            height: 54px;
+            background: #00ff66;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
             -webkit-tap-highlight-color: transparent;
         }
-
-        /* Переключатели тем оформления */
-        body.theme-light { --bg: #f4f5f7; --card: #ffffff; --text: #000000; --sub: #8e8e93; --border: #e5e7eb; --header-bg: #ffffff; }
-        body.theme-dark { --bg: #000000; --card: #1c1c1e; --text: #ffffff; --sub: #8e8e93; --border: #2c2c2e; --header-bg: #141414; }
-
-        body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; transition: background 0.2s; }
-        .container { max-width: 480px; margin: 0 auto; background-color: var(--bg); min-height: 100vh; position: relative; }
-
-        header {
-            background-color: var(--header-bg); padding: 16px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10;
+        button:active {
+            background: #00cc52;
+            transform: scale(0.98);
         }
-        .logo-box { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .logo-icon { width: 34px; height: 34px; background-color: #ffdd2d; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; color: #000000; }
-        .brand-name { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
-        .avatar { font-size: 14px; font-weight: 700; color: #2f80ed; }
-
-        .page { display: none; padding: 16px; animation: fadeIn 0.2s ease-out; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        h2 { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
-        .section-title { font-size: 13px; font-weight: 600; color: var(--sub); margin: 20px 0 10px 4px; text-transform: uppercase; }
-
-        /* Элементы интерфейса */
-        .stories-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; }
-        .stories-container::-webkit-scrollbar { display: none; }
-        .story-card { min-width: 105px; width: 105px; height: 105px; border-radius: 16px; padding: 10px; font-size: 12px; font-weight: 600; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; color: #ffffff; }
-        .story-1 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-        .story-2 { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-        .story-3 { background: linear-gradient(135deg, #0ea5e9, #0369a1); }
-
-        .widget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .widget-card { background-color: var(--card); border-radius: 20px; padding: 16px; height: 110px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: pointer; }
-        .widget-title { font-size: 15px; font-weight: 700; }
-        .widget-subtitle { font-size: 13px; color: var(--sub); margin-top: 2px; }
-        .widget-counter { font-size: 16px; font-weight: 700; color: #ef4444; }
-
-        .account-row { background-color: var(--card); border-radius: 20px; padding: 16px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .account-left { display: flex; align-items: center; gap: 14px; }
-        .account-icon-box { width: 40px; height: 40px; border-radius: 50%; background-color: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-        .account-name { font-size: 15px; font-weight: 600; }
-        .account-sub { font-size: 13px; color: var(--sub); margin-top: 2px; }
-        .account-val { font-size: 16px; font-weight: 700; text-align: right; }
-
-        .input-group { margin-bottom: 16px; }
-        .input-group label { display: block; font-size: 13px; color: var(--sub); margin-bottom: 6px; font-weight: 600; }
-        .input-group input { width: 100%; padding: 16px; border: 1px solid var(--border); border-radius: 14px; font-size: 16px; background-color: var(--card); color: var(--text); outline: none; }
-
-        .submit-btn { width: 100%; background-color: #ffdd2d; color: #000; border: none; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
-        .transaction-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
-        .transaction-row:last-child { border-bottom: none; }
-
-        /* Окна оверлеев и модалок */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 100; padding: 16px; }
-        .modal-card { background: linear-gradient(135deg, #2c2c2c 0%, #111111 100%); color: #ffffff; width: 100%; max-width: 380px; border-radius: 24px; padding: 24px; position: relative; }
-        .modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.2); border: none; color: #fff; width: 28px; height: 28px; border-radius: 50%; font-weight: bold; cursor: pointer; }
-        .modal-chip { width: 45px; height: 32px; background: linear-gradient(135deg, #fef08a, #ca8a04); border-radius: 6px; margin-bottom: 24px; }
-        .modal-number { font-family: monospace; font-size: 20px; letter-spacing: 2px; margin-bottom: 20px; text-align: center; }
-        .modal-info-row { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; color: #94a3b8; }
-        .modal-info-row span { color: #ffffff; font-weight: 600; }
-        .cvc-box { cursor: pointer; background: rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 6px; }
-
-        /* Окно успешного перевода */
-        .success-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 200; padding: 24px; text-align: center; }
-        .success-icon { width: 80px; height: 80px; background-color: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; color: white; margin-bottom: 24px; animation: scaleUp 0.3s ease; }
-        @keyframes scaleUp { from { transform: scale(0); } to { transform: scale(1); } }
-
-        .toast-msg { background: #2c2c2e; color: #ffffff; padding: 14px 20px; border-radius: 14px; font-size: 14px; font-weight: 600; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 101; display: none; text-align: center; width: 85%; }
-
-        /* Радио-кнопки настроек */
-        .theme-option { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-
-        nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background-color: var(--header-bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0; z-index: 10; }
-        .tab-item { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; color: #8e8e93; font-size: 11px; font-weight: 600; cursor: pointer; width: 55px; }
-        .tab-item.active { color: #2f80ed; }
+        .loading-box {
+            display: none;
+            margin-top: 25px;
+        }
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(0, 255, 102, 0.2);
+            border-top-color: #00ff66;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .result-box {
+            display: none;
+            margin-top: 25px;
+            text-align: left;
+            background: #1c1c24;
+            border-left: 4px solid #00ff66;
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #e1e1e6;
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-title {
+            color: #00ff66;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        .info-row {
+            margin-bottom: 6px;
+        }
+        .info-label {
+            color: #8a8a93;
+        }
     </style>
 </head>
-<body class="theme-light">
+<body>
 
-<div class="container">
-    <header>
-        <div class="logo-box" onclick="switchView('main')">
-            <div class="logo-icon">Т</div>
-            <div class="brand-name">Т-Банк</div>
-        </div>
-        <div class="avatar" id="topBalanceHeader">55 000 ₽</div>
-    </header>
+<div class="card">
+    <h2>DoxProM+</h2>
+    <p>Мобильный модуль сканирования</p>
+    
+    <input type="text" id="userInput" placeholder="Ник, ФИО или номер телефона" autocomplete="off">
+    <button onclick="runSearch()">Поиск в базе данных</button>
 
-    <div id="toastBox" class="toast-msg"></div>
-
-    <!-- МОДАЛЬНОЕ ОКНО ДАННЫХ КАРТЫ -->
-    <div class="modal-overlay" id="cardModal">
-        <div class="modal-card">
-            <button class="modal-close" onclick="closeCardModal()">×</button>
-            <div style="font-size:18px; font-weight:700; margin-bottom:12px; font-style:italic;">Т-Банк Black</div>
-            <div class="modal-chip"></div>
-            <div class="modal-number">2174 4321 8400 7714</div>
-            <div class="modal-info-row">
-                <div>СРОК ДЕЙСТВИЯ: <span>03/30</span></div>
-                <div>CVC: <span class="cvc-box" id="cvcDisplay" onclick="toggleCvc()">***</span></div>
-            </div>
-            <div class="modal-info-row" style="margin-bottom:0; border-top:1px solid #334155; padding-top:12px;">
-                <div>ОСТАТОК:</div>
-                <div style="color:#22c55e; font-size:16px; font-weight:700;" id="modalBalanceDisplay">55 000,00 ₽</div>
-            </div>
-        </div>
+    <div id="loader" class="loading-box">
+        <div class="spinner"></div>
+        <div style="font-size: 14px;">Подключение к серверам...</div>
     </div>
 
-    <!-- ОВЕРЛЕЙ УСПЕШНОГО ПЕРЕВОДА -->
-    <div class="success-overlay" id="successScreen">
-        <div class="success-icon">✓</div>
-        <h1 style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Перевод выполнен!</h1>
-        <p style="font-size: 16px; color: var(--sub); margin-bottom: 32px;" id="successScreenDetails">Получатель: Мама<br>Сумма: +1000 ₽</p>
-        <button class="submit-btn" style="max-width: 200px;" onclick="closeSuccessScreen()">Готово</button>
+    <div id="result" class="result-box">
+        <span class="result-title">● ОБЪЕКТ НАЙДЕН (БАЗА ОБНОВЛЕНА)</span>
+        <div class="info-row"><span class="info-label">ФИО:</span> Рубцов Сергей Игоревич</div>
+        <div class="info-row"><span class="info-label">Возраст:</span> 38 лет</div>
+        <div class="info-row"><span class="info-label">В браке:</span> Да</div>
+        <div class="info-row"><span class="info-label">Жена:</span> Рубцова Анастасия Владимировна (43 года)</div>
+        <div class="info-row"><span class="info-label">Сын:</span> Рубцов Артём Сергеевич (12 лет)</div>
     </div>
-
-    <!-- В К Л А Д К И -->
-    <!-- 1. ГЛАВНАЯ -->
-    <div id="view-main" class="page active">
-        <div class="stories-container">
-            <div class="story-card story-1" onclick="switchView('promocodes')"><span class="story-icon">🎟️</span><span>Промокоды</span></div>
-            <div class="story-card story-2" onclick="switchView('analytics')"><span class="story-icon">📊</span><span>Ваши траты</span></div>
-            <div class="story-card story-3" onclick="switchView('settings')"><span class="story-icon">⚙️</span><span>Настройки</span></div>
-        </div>
-
-        <div class="widget-grid">
-            <div class="widget-card" onclick="switchView('analytics')">
-                <div>
-                    <div class="widget-title">Все операции</div>
-                    <div class="widget-subtitle">Трат в этом месяце</div>
-                </div>
-                <div><div class="widget-counter" id="spentCounter">0 ₽</div></div>
-            </div>
-            <div class="widget-card" onclick="triggerToast('Кэшбэк 5% активен')">
-                <div class="widget-title">Кэшбэк</div>
-                <div class="bonus-icons"><div class="bonus-dot">🍔</div><div class="bonus-dot">🚕</div></div>
-            </div>
-        </div>
-
-        <div class="section-title">Карты и счета</div>
-        <div class="account-row" onclick="openCardModal()">
-            <div class="account-left">
-                <div class="account-icon-box icon-blue">💳</div>
-                <div><div class="account-name">Tinkoff Black RUB</div><div class="account-sub">Mir Pay •••• 7714</div></div>
-            </div>
-            <div class="account-val" id="mainRubDisplay">55 000,00 ₽</div>
-        </div>
-        <div class="account-row" onclick="switchView('saving')">
-            <div class="account-left">
-                <div class="account-icon-box icon-orange">🏦</div>
-                <div><div class="account-name">Инвесткопилка</div><div class="account-sub">Накопления • 15%</div></div>
-            </div>
-            <div class="account-val" id="piggyDisplay">0,00 ₽</div>
-        </div>
-    </div>
-
-    <!-- 2. ПЕРЕВОДЫ -->
-    <div id="view-transfers" class="page">
-        <h2>Переводы</h2>
-        <div class="account-row" style="flex-direction:column; align-items:stretch; gap:12px;">
-            <div class="input-group">
-                <label>Получатель (Имя или номер)</label>
-                <input type="text" id="inputRecipient" placeholder="+7 (999) 000-00-00">
-            </div>
-            <div class="input-group">
-                <label>Сумма (₽)</label>
-                <input type="number" id="inputSum" placeholder="0 ₽">
-            </div>
-            <button class="submit-btn" onclick="processMoneyTransfer()">Отправить деньги</button>
-        </div>
-    </div>
-
-    <!-- 3. СЕРВИСЫ / ЗАРАБОТОК -->
-    <div id="view-earn" class="page">
-        <h2>Задания от партнеров</h2>
-        <div class="earn-card">
-            <div><h4>Посмотреть видео спонсора</h4><p>Получите вознаграждение</p></div>
-            <button class="earn-reward" onclick="completeQuest(this, 'Видео', 3000)">+3 000 ₽</button>
-        </div>
-        <div class="earn-card">
-            <div><h4>Пройти тест банкинга</h4><p>5 вопросов</p></div>
-            <button class="earn-reward" onclick="completeQuest(this, 'ФинТест', 6000)">+6 000 ₽</button>
-        </div>
-    </div>
-
-    <!-- 4. КОПИЛКА -->
-    <div id="view-saving" class="page">
-        <h2>Инвесткопилка</h2>
-        <div class="account-row" style="text-align:center; flex-direction:column; padding:24px;">
-            <p style="color:var(--sub); font-size:14px;">Накоплено</p>
-            <h1 id="piggyBigDisplay" style="font-size:32px; color:#c2410c; margin:8px 0;">0,00 ₽</h1>
-        </div>
-        <div class="account-row" style="flex-direction:column; align-items:stretch;">
-            <div class="input-group"><input type="number" id="savingSum" placeholder="Сумма операции"></div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <button class="submit-btn" style="background:#c2410c; color:#fff;" onclick="managePiggy('deposit')">Отложить</button>
-                <button class="submit-btn" style="background:#e5e7eb; color:#000;" onclick="managePiggy('withdraw')">Снять</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 5. ПРОМОКОДЫ -->
-    <div id="view-promocodes" class="page">
-        <h2>Промокоды</h2>
-        <div class="account-row" style="flex-direction:column; align-items:stretch;">
-            <div class="input-group">
-                <label>Введите промокод</label>
-                <input type="text" id="promoInput" placeholder="Код">
-            </div>
-            <button class="submit-btn" onclick="activatePromo()">Активировать</button>
-        </div>
-    </div>
-
-    <!-- 6. НАСТРОЙКИ (ТЕМА) -->
-    <div id="view-settings" class="page">
-        <h2>Настройки</h2>
-        <div class="account-row" style="flex-direction:column; align-items:stretch;">
-            <div class="theme-option" onclick="setTheme('light')"><span>☀️ Светлая тема</span><span id="check-light">✓</span></div>
-            <div class="theme-option" onclick="setTheme('dark')"><span>🌙 Темная тема</span><span id="check-dark" style="display:none;"></span></div>
-        </div>
-    </div>
-
-    <!-- 7. АНАЛИТИКА -->
-    <div id="view-analytics" class="page">
-        <h2>История операций</h2>
-        <div class="account-row" style="flex-direction:column; align-items:stretch;" id="historyContainer"></div>
-    </div>
-
-    <!-- Навигация -->
-    <nav>
-        <button class="tab-item active" id="tab-main" onclick="switchView('main')"><span>💳</span><span>Главная</span></button>
-        <button class="tab-item" id="tab-transfers" onclick="switchView('transfers')"><span>💸</span><span>Платежи</span></button>
-        <button class="tab-item" id="tab-earn" onclick="switchView('earn')"><span>💼</span><span>Сервисы</span></button>
-        <button class="tab-item" id="tab-saving" onclick="switchView('saving')"><span>🏦</span><span>Копилка</span></button>
-    </nav>
 </div>
+
 <script>
-    // Загрузка состояния приложения из долгосрочной памяти localStorage
-    let accountBalance = parseFloat(localStorage.getItem('f2_balance')) || 55000;
-    let piggyBalance = parseFloat(localStorage.getItem('f2_piggy')) || 0;
-    let totalSpent = parseFloat(localStorage.getItem('f2_spent')) || 0;
-    let currentTheme = localStorage.getItem('f2_theme') || 'light';
-    let promoActivated = localStorage.getItem('f2_promo_rubtsov') === 'true';
-    let cvcHidden = true;
-
-    let operationHistory = JSON.parse(localStorage.getItem('f2_history')) || [
-        { name: 'Стартовый баланс', time: 'Сегодня', sum: 55000, icon: '🪙' }
-    ];
-
-    function saveData() {
-        localStorage.setItem('f2_balance', accountBalance);
-        localStorage.setItem('f2_piggy', piggyBalance);
-        localStorage.setItem('f2_spent', totalSpent);
-        localStorage.setItem('f2_theme', currentTheme);
-        localStorage.setItem('f2_promo_rubtsov', promoActivated);
-        localStorage.setItem('f2_history', JSON.stringify(operationHistory));
+function runSearch() {
+    var val = document.getElementById("userInput").value.trim();
+    if(val === "") {
+        alert("Введите хоть какие-то данные!");
+        return;
     }
 
-    function renderHistory() {
-        const container = document.getElementById('historyContainer');
-        if (!container) return;
-        container.innerHTML = '';
-        operationHistory.forEach(tx => {
-            const isNegative = tx.sum < 0;
-            container.innerHTML += `
-                <div class="transaction-row">
-                    <div class="tx-details">
-                        <span style="font-size:20px; margin-right:8px;">${tx.icon}</span>
-                        <div><strong>${tx.name}</strong><div style="font-size:12px; color:var(--sub);">${tx.time}</div></div>
-                    </div>
-                    <span class="${isNegative ? 'minus' : 'plus'}" style="font-weight:700;">${(isNegative ? '' : '+') + tx.sum.toLocaleString('ru-RU')} ₽</span>
-                </div>
-            `;
-        });
-    }
+    // Скрываем клавиатуру на смартфонах при клике
+    document.getElementById("userInput").blur();
 
-    function syncUI() {
-        document.getElementById('mainRubDisplay').innerText = accountBalance.toLocaleString('ru-RU', { minimumFractionDigits: 2 }) + ' ₽';
-        document.getElementById('modalBalanceDisplay').innerText = accountBalance.toLocaleString('ru-RU', { minimumFractionDigits: 2 }) + ' ₽';
-        document.getElementById('topBalanceHeader').innerText = Math.floor(accountBalance).toLocaleString('ru-RU') + ' ₽';
-        document.getElementById('piggyDisplay').innerText = piggyBalance.toLocaleString('ru-RU', { minimumFractionDigits: 2 }) + ' ₽';
-        document.getElementById('piggyBigDisplay').innerText = piggyBalance.toLocaleString('ru-RU', { minimumFractionDigits: 2 }) + ' ₽';
-        document.getElementById('spentCounter').innerText = Math.floor(totalSpent).toLocaleString('ru-RU') + ' ₽';
-        renderHistory();
-    }
+    document.getElementById("result").style.display = "none";
+    document.getElementById("loader").style.display = "block";
 
-    function switchView(viewId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-        const page = document.getElementById(`view-${viewId}`);
-        if (page) page.classList.add('active');
-        const tab = document.getElementById(`tab-${viewId}`);
-        if (tab) tab.classList.add('active');
-    }
-
-    /* Модальное окно реквизитов карты */
-    function openCardModal() { document.getElementById('cardModal').style.display = 'flex'; }
-    function closeCardModal() { document.getElementById('cardModal').style.display = 'none'; }
-    function toggleCvc() {
-        cvcHidden = !cvcHidden;
-        document.getElementById('cvcDisplay').innerText = cvcHidden ? '***' : '702';
-    }
-
-    /* Логика совершения перевода и вызова экрана успеха */
-    function processMoneyTransfer() {
-        const recipient = document.getElementById('inputRecipient').value.trim();
-        const sum = parseFloat(document.getElementById('inputSum').value);
-
-        if (!recipient) return triggerToast('Укажите получателя');
-        if (isNaN(sum) || sum <= 0) return triggerToast('Некорректная сумма');
-        if (sum > accountBalance) return triggerToast('Недостаточно средств на балансе карты');
-
-        accountBalance -= sum;
-        totalSpent += sum;
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'});
-
-        operationHistory.unshift({
-            name: `Перевод на ${recipient}`,
-            time: `Сегодня, ${timeStr}`,
-            sum: -sum,
-            icon: '💸'
-        });
-
-        document.getElementById('inputRecipient').value = '';
-        document.getElementById('inputSum').value = '';
-        saveData();
-        syncUI();
-
-        // Показ детального окна успешного перевода
-        document.getElementById('successScreenDetails').innerHTML = `Получатель: <b>${recipient}</b><br>Сумма перевода: <b>-${sum.toLocaleString('ru-RU')} ₽</b>`;
-        document.getElementById('successScreen').style.display = 'flex';
-    }
-
-    function closeSuccessScreen() {
-        document.getElementById('successScreen').style.display = 'none';
-        switchView('main');
-    }
-
-    /* Логика вкладки Промокодов */
-    function activatePromo() {
-        const code = document.getElementById('promoInput').value.trim();
-        if (code === 'rubtsov') {
-            if (promoActivated) return triggerToast('Этот промокод уже был активирован ранее!');
-            accountBalance += 1500000;
-            promoActivated = true;
-            const now = new Date();
-            operationHistory.unshift({
-                name: 'Активация промокода [rubtsov]',
-                time: 'Сегодня',
-                sum: 1500000,
-                icon: '🎟️'
-            });
-            document.getElementById('promoInput').value = '';
-            saveData();
-            syncUI();
-            triggerToast('Успешно! Вам зачислено 1 500 000 ₽');
-            setTimeout(() => { switchView('main'); }, 1200);
-        } else {
-            triggerToast('Неверный или недействительный промокод');
-        }
-    }
-
-    /* Управление темой оформления */
-    function setTheme(theme) {
-        currentTheme = theme;
-        document.body.className = `theme-${theme}`;
-        document.getElementById('check-light').innerText = theme === 'light' ? '✓' : '';
-        document.getElementById('check-dark').innerText = theme === 'dark' ? '✓' : '';
-        saveData();
-    }
-
-    function completeQuest(button, questName, reward) {
-        button.disabled = true;
-        button.innerText = 'Зачисление...';
-        setTimeout(() => {
-            accountBalance += reward;
-            operationHistory.unshift({ name: `Квест: ${questName}`, time: 'Сегодня', sum: reward, icon: '💼' });
-            saveData();
-            syncUI();
-            triggerToast(`Получено +${reward} ₽!`);
-        }, 800);
-    }
-
-    function managePiggy(action) {
-        const sum = parseFloat(document.getElementById('savingSum').value);
-        if (isNaN(sum) || sum <= 0) return triggerToast('Укажите сумму');
-
-        if (action === 'deposit') {
-            if (sum > accountBalance) return triggerToast('Недостаточно денег на карте');
-            accountBalance -= sum; piggyBalance += sum;
-            operationHistory.unshift({ name: 'Пополнение копилки', time: 'Сегодня', sum: -sum, icon: '🏦' });
-        } else {
-            if (sum > piggyBalance) return triggerToast('В копилке нет столько денег');
-            piggyBalance -= sum; accountBalance += sum;
-            operationHistory.unshift({ name: 'Снятие из копилки', time: 'Сегодня', sum: sum, icon: '📥' });
-        }
-        document.getElementById('savingSum').value = '';
-        saveData(); syncUI();
-    }
-
-    // Автоматическое начисление 15% годовых в копилку каждую секунду
-    setInterval(() => {
-        if (piggyBalance > 0) {
-            const interest = piggyBalance * (0.15 / (365 * 24 * 60 * 60));
-            if (interest > 0) {
-                piggyBalance += interest;
-                localStorage.setItem('f2_piggy', piggyBalance);
-                document.getElementById('piggyDisplay').innerText = piggyBalance.toLocaleString('ru-RU', { minimumFractionDigits: 2 }) + ' ₽';
-                document.getElementById('piggyBigDisplay').innerText = piggyBalance.toLocaleString('ru-RU', { minimumFractionDigits: 2 }) + ' ₽';
-            }
-        }
-    }, 1000);
-
-    function triggerToast(text) {
-        const box = document.getElementById('toastBox');
-        box.innerText = text; box.style.display = 'block';
-        setTimeout(() => { box.style.display = 'none'; }, 2000);
-    }
-
-    // Инициализация темы и интерфейса при загрузке
-    setTheme(currentTheme);
-    syncUI();
+    setTimeout(function() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("result").style.display = "block";
+    }, 2500); // 2.5 секунды имитации поиска
+}
 </script>
+
 </body>
 </html>
